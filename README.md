@@ -15,7 +15,7 @@ W prawym dolnym rogu kalendarza pojawi się przycisk **📅 Eksport .ics**. Po k
 ## Jak to działa
 
 - Skrypt odpytuje to samo API co strona: `GET https://api.meritogo.pl/v2/class_schedule/v3/schedule/student`, w kawałkach po 3 miesiące.
-- Autoryzacja: tak jak strona – ciasteczka sesji, a jeśli w localStorage jest ważny token (klucze `_t`, `_sk`, `_t_exp`), także nagłówek `Authorization`. `context-id` skrypt pobiera z `/v2/drupal/v1/contexts`.
+- Autoryzacja: ciasteczka sesji z przeglądarki, tak jak na stronie. `context-id` skrypt pobiera z `/v2/drupal/v1/contexts`.
 - Godziny są zapisane w UTC, więc kalendarz pokaże je w Twojej strefie czasowej.
 - Zajęcia o statusie `moveToWithoutDate` trafiają do pliku jako `[Przeniesione]` ze statusem `CANCELLED`.
 - Każde wydarzenie ma stałe `UID`, więc ponowny import aktualizuje istniejące wpisy zamiast je dublować (w kalendarzach, które to wspierają).

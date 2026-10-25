@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Merito – eksport kalendarza 
 // @namespace    https://github.com/aleksishere/merito-calendar
-// @version      1.0.2
+// @version      1.0.3
 // @description  Dodaje na meritogo.pl/calendar przycisk, który pobiera plan zajęć jako plik .ics
 // @match        https://meritogo.pl/*
 // @run-at       document-idle
@@ -146,28 +146,10 @@
 
   // --- Przeglądarka: zapytania do API w imieniu zalogowanego użytkownika ---
 
-  // Strona trzyma token w localStorage: `_t` to base64 z tokenu zaXORowanego kluczem `_sk`,
-  // `_t_exp` to czas wygaśnięcia w ms. Odczytujemy go tak samo jak strona.
-  function readToken() {
-    const enc = localStorage.getItem('_t');
-    const key = localStorage.getItem('_sk');
-    if (!enc || !key || Number(localStorage.getItem('_t_exp')) <= Date.now()) return '';
-    try {
-      const token = atob(enc)
-        .split('')
-        .map((ch, i) => String.fromCharCode(ch.charCodeAt(0) ^ key.charCodeAt(i % key.length)))
-        .join('');
-      return /^Bearer [\w\-.~+/]+=*$/.test(token) ? token : '';
-    } catch {
-      return '';
-    }
-  }
-
   let contextId = '';
 
   async function apiGet(path) {
-    // Tak jak strona: Authorization tylko gdy jest token, poza tym wystarczają ciasteczka sesji.
-    const token = readToken();
+    // Uwierzytelnienie przez ciasteczka sesji.
     const headers = {
       Accept: 'application/json, text/plain, */*',
       'X-Requested-With': 'XMLHttpRequest',
@@ -175,7 +157,6 @@
       'Accept-Language': 'pl_PL',
       'X-Timezone': 'Europe/Warsaw',
     };
-    if (token) headers.Authorization = token;
     if (contextId) headers['context-id'] = contextId;
     const res = await fetch(API + path, { credentials: 'include', headers });
     if (res.status === 401 || res.status === 403) {
