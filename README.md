@@ -10,7 +10,7 @@ Skrypt Tampermonkey, który eksportuje plan zajęć z [meritogo.pl/calendar](htt
 
 ## Użycie
 
-W prawym dolnym rogu kalendarza pojawi się przycisk **📅 Eksport .ics**. Po kliknięciu podajesz zakres dat (domyślnie bieżący rok akademicki, 1 sierpnia – 30 września), a skrypt pobiera plik `merito_<od>_<do>.ics`.
+W prawym dolnym rogu kalendarza pojawi się przycisk **📅 Eksport .ics**. Po kliknięciu podajesz zakres dat, a skrypt pobiera plik `merito_<od>_<do>.ics`.
 
 ## Jak to działa
 
